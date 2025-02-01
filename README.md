@@ -30,7 +30,7 @@ ros2 launch amr_navigation navigation.launch.py
 ```
 
 
-# Problem
+# Problem 1
 
 When an order is received, the robot should:
 
@@ -58,9 +58,47 @@ ros2 service call /position_list amr_custom_msg/srv/GoalList "goal_list: [table1
 
 ### Output Video
 
-[![problem](./data/problem_one.webm)](./data/problem_one.webm)
+[![Problem One](data/pic.png)](https://drive.google.com/file/d/1OzVE8HLD-lfVHHrgjoURyCafVJnp0MZ4/view?usp=drive_link)
 
 
+# Problem 2
 
+When an order is received with the table number, the robot should:
+
+
+1. ***Move from its home position to the specified table to start the task.***
+
+2. ***If no one attends the robot, it will wait for confirmation (either in the kitchen or at the table).***
+
+3. ***If the robot doesn't receive confirmation within a given timeout, it will return to the home position automatically.***
+
+### Implementation
+
+To achieve this, I used two ROS 2 service one for send signal and another one for sending single or multiple goal locations dynamically.
+
+**Running the Delivery System**
+```bash
+ros2 run amr_utils problem_two.py
+```
+**Sending a Goal to the Robot**
+
+Use the following command to send a goal (e.g., moving to table1):
+
+```bash
+ros2 service call /position_list amr_custom_msg/srv/GoalList "goal_list: [table1]"
+```
+
+**Sending Timeout signal for Robot**
+
+Use the following command to send a signal:
+
+```bash
+ros2 service call /signal_service amr_custom_msg/srv/DelivarySignal "signal: True" 
+```
+
+### Output Video
+
+
+[![Problem Two](data/pic.png)](https://drive.google.com/file/d/1R61iM8AflfuBpwEZrKmjbrsb8Ob9-kjh/view?usp=drive_link)
 
 

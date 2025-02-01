@@ -16,6 +16,7 @@ ament_python_install_package(${PROJECT_NAME})
 
 install(PROGRAMS
   ${PROJECT_NAME}/problem_one.py
+  ${PROJECT_NAME}/problem_two.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

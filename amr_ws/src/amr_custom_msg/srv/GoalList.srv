@@ -1,0 +1,4 @@
+string[] goal_list
+---
+bool success
+string message

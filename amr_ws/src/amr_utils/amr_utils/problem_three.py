@@ -44,6 +44,7 @@ class SimpleDeliveryRobot(Node):
         
         
     def timer_callback(self):
+        """ Periodic status check """
         if self.waiting_for_confirmation:
             self.get_logger().info("Waiting for confirmation...")
             self.confirmation_timeout -= 1
@@ -72,12 +73,14 @@ class SimpleDeliveryRobot(Node):
             self.process_next_order()
             
     def process_next_order(self):
+        """ Process next goal from pending_orders """
         if self.pending_orders:
             self.current_goal = self.pending_orders.pop(0)
             self.get_logger().info(f"Navigating to: {self.current_goal}")
             self.send_goal(self.current_goal)
             
     def order_callback(self, request, response):
+        """ Handle goal list request """
         if not request.goal_list:
             self.get_logger().error("Received an empty goal list.")
             response.success = False
@@ -108,6 +111,7 @@ class SimpleDeliveryRobot(Node):
     
     
     def send_goal(self, location):
+        """ Send navigation goal to action server """
         pose = self.get_pose_for_goal(location)
         goal_msg = NavigateToPose.Goal()
         goal_msg.pose = pose
@@ -117,6 +121,7 @@ class SimpleDeliveryRobot(Node):
         goal_future.add_done_callback(self.goal_response_callback)
         
     def goal_response_callback(self, future):
+        """ Handle goal response from action server """
         try:
             goal_handle = future.result()
             if not goal_handle.accepted:
@@ -131,6 +136,7 @@ class SimpleDeliveryRobot(Node):
             self.get_logger().error(f"Error in goal_response_callback: {e}")
        
     def signal_callback(self, request, response):
+        """ Signal for Moving """
         if request.signal:
             self.waiting_for_confirmation = False
             self.get_logger().info("Received confirmation. Proceeding with task.")
@@ -138,11 +144,13 @@ class SimpleDeliveryRobot(Node):
         return response
     
     def feedback_callback(self, feedback_msg):
+        """ Process feedback from action server """
         if feedback_msg.feedback:
             self.goal_status = 2
             
             
     def result_callback(self, future):
+        """ Handle goal completion """
         try:
             result = future.result()
             if result:
@@ -165,6 +173,7 @@ class SimpleDeliveryRobot(Node):
             self.get_logger().error(f"Error in result_callback: {e}")
             
     def get_pose_for_goal(self, location):
+        """ Generate Pose for given location """
         x, y, yaw = self.locations[location]
         q = tf_transformations.quaternion_from_euler(0, 0, yaw)
         

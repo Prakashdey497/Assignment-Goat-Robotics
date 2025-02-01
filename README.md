@@ -101,4 +101,42 @@ ros2 service call /signal_service amr_custom_msg/srv/DelivarySignal "signal: Tru
 
 [![Problem Two](data/pic.png)](https://drive.google.com/file/d/1R61iM8AflfuBpwEZrKmjbrsb8Ob9-kjh/view?usp=drive_link)
 
+# Problem 3
+
+When an order is received with the table number, the robot should move from home to start its task. We need to handle the following scenario:
+
+a. ***The robot will reach the kitchen for the food, and if no confirmation is given, it should move to the home position after a timeout.***
+
+b. ***If the food is received from the kitchen, the robot reaches the table. If no one gives confirmation from the table, the robot will first return to the kitchen before moving back to the home position.***
+
+### Implementation
+
+To achieve this, a combination of two ROS 2 services is used one to send goal locations and another to handle the confirmation logic.
+
+**Running the Delivery System**
+```bash
+ros2 run amr_utils problem_three.py
+```
+**Sending a Goal to the Robot**
+
+Use the following command to send a goal (e.g., moving to table1):
+
+```bash
+ros2 service call /position_list amr_custom_msg/srv/GoalList "goal_list: [table1]"
+```
+
+**Sending Timeout signal for Robot**
+
+Use the following command to send a signal:
+
+```bash
+ros2 service call /signal_service amr_custom_msg/srv/DelivarySignal "signal: True" 
+```
+
+### Output Video
+
+
+[![Problem Three](data/pic.png)](https://drive.google.com/file/d/1GDcc_1moQXI8WglRCYm_roRAFF52q6jZ/view?usp=drive_link)
+
+
 

@@ -20,6 +20,8 @@ install(PROGRAMS
   ${PROJECT_NAME}/problem_three.py
   ${PROJECT_NAME}/problem_four.py
   ${PROJECT_NAME}/problem_five.py
+  ${PROJECT_NAME}/problem_six.py
+
   DESTINATION lib/${PROJECT_NAME}
 )
 

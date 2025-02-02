@@ -21,7 +21,7 @@ install(PROGRAMS
   ${PROJECT_NAME}/problem_four.py
   ${PROJECT_NAME}/problem_five.py
   ${PROJECT_NAME}/problem_six.py
-
+  ${PROJECT_NAME}/problem_seven.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

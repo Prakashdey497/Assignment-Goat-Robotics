@@ -172,7 +172,7 @@ Use the following command to send a signal:
 ros2 service call /signal_service amr_custom_msg/srv/DelivarySignal "signal: True" 
 ```
 
-***Cancle the Goal**
+**Cancle the Goal**
 For cancle the robot goal i used ros2 nav_to_pose default hidden service
 
 ```bash
@@ -194,4 +194,46 @@ ros2 service call /navigate_to_pose/_action/cancel_goal action_msgs/srv/CancelGo
 
 
 [![Problem Three](data/pic.png)](https://drive.google.com/file/d/1IAQ5ZXA6BKtzGbQCX2fxNA5d8A53F6B-/view?usp=drive_link)
+
+
+# Problem 5
+
+When multiple orders are received with table numbers, the robot should follow this task flow:
+
+1. **Order Received:**  ***The robot moves from home to the kitchen to collect the orders.***
+
+2. **Delivery Process:** ***The robot moves to multiple tables one by one to deliver the food.***
+
+3. **Completion:**  ***After delivering all orders, the robot returns to the home position.***
+
+### Implementation
+
+This is achieved using a ROS 2 service to send multiple goal locations dynamically.
+
+**Running the Multi-Table Delivery System**
+
+To start the system, run the following command:
+```bash
+ros2 run amr_utils problem_five.py
+```
+**Sending Multiple Goals to the Robot**
+
+To send multiple table destinations (e.g., table1, table2), use:
+
+```bash
+ros2 service call /position_list amr_custom_msg/srv/GoalList "goal_list: [table1,table2]"
+```
+
+**Sending Timeout signal for Robot**
+
+Use the following command to send a signal:
+
+```bash
+ros2 service call /signal_service amr_custom_msg/srv/DelivarySignal "signal: True" 
+```
+
+### Output Video
+
+
+[![Problem Three](data/pic.png)](https://drive.google.com/file/d/1FKvtDEKWOuxYA1YKDn0x8-eopBnt2pxw/view?usp=drive_link)
 

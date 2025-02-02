@@ -140,3 +140,58 @@ ros2 service call /signal_service amr_custom_msg/srv/DelivarySignal "signal: Tru
 
 
 
+# Problem 4
+
+When an order is received with the table number,The robot moves from home to the kitchen and then to the designated table.
+
+a. ***If a task is canceled while going to the table, the robot returns to the kitchen and then to home.***
+
+b. ***If a task is canceled while going to the kitchen, the robot will return to home.***
+
+### Implementation
+
+To achieve this, a combination of two ROS 2 services is used one to send goal locations and another to handle the confirmation logic.
+
+**Running the Delivery System**
+```bash
+ros2 run amr_utils problem_three.py
+```
+**Sending a Goal to the Robot**
+
+Use the following command to send a goal (e.g., moving to table1):
+
+```bash
+ros2 service call /position_list amr_custom_msg/srv/GoalList "goal_list: [table1]"
+```
+
+**Sending Timeout signal for Robot**
+
+Use the following command to send a signal:
+
+```bash
+ros2 service call /signal_service amr_custom_msg/srv/DelivarySignal "signal: True" 
+```
+
+***Cancle the Goal**
+For cancle the robot goal i used ros2 nav_to_pose default hidden service
+
+```bash
+ros2 service call /navigate_to_pose/_action/cancel_goal action_msgs/srv/CancelGoal "goal_info:
+  goal_id:
+    uuid:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    nanosec: 0"
+```
+
+### Output Video
+
+
+[![Problem Three](data/pic.png)](https://drive.google.com/file/d/1IAQ5ZXA6BKtzGbQCX2fxNA5d8A53F6B-/view?usp=drive_link)
+

@@ -237,3 +237,47 @@ ros2 service call /signal_service amr_custom_msg/srv/DelivarySignal "signal: Tru
 
 [![Problem Three](data/pic.png)](https://drive.google.com/file/d/1FKvtDEKWOuxYA1YKDn0x8-eopBnt2pxw/view?usp=drive_link)
 
+# Problem 6
+
+When multiple orders are received with the table numbers (e.g., table1, table2, table3), the robot should follow this task flow:
+
+1. **Order Collection:**  ***The robot moves from home to the kitchen to collect the orders.***
+
+2. **Delivery Process:** ***The robot moves to multiple tables one by one to deliver the food.***
+
+3. **Handling Unconfirmed Orders:**  ***If no one confirms at `table1`, the robot moves to the next available tables (table2, table3).***
+
+4. **Return to Kitchen**  ***After finishing the delivery of the final table, the robot goes to the kitchen before moving to the home position.***
+
+
+### Implementation
+
+A ROS 2 service is used to dynamically update the robot's navigation sequence based on real-time confirmations.
+
+**Running the Conditional Multi-Table Delivery System**
+
+To start the system, run the following command:
+```bash
+ros2 run amr_utils problem_six.py
+```
+**Sending Multiple Goals to the Robot**
+
+To send multiple table destinations (e.g., table1, table2), use:
+
+```bash
+ros2 service call /position_list amr_custom_msg/srv/GoalList "goal_list: [table1,table2,table3]"
+```
+
+**Sending Timeout signal for Robot**
+
+Use the following command to send a signal:
+
+```bash
+ros2 service call /signal_service amr_custom_msg/srv/DelivarySignal "signal: True" 
+```
+
+### Output Video
+
+
+[![Problem Three](data/pic.png)](https://drive.google.com/file/d/1yGHfdUcPNS4wYxFNj3Sp3vBBL_AQukmj/view?usp=drive_link)
+
